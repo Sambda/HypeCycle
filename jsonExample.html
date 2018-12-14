@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hallo</title>
+  </head>
+  <body>
+    <h1>It works!</h1>
+    <div id="content">Loading...</div>
+    <script type="text/javascript">
+      let promise = window.fetch("data.json")
+        .then(response => {
+          console.log("response:", response);
+          return response.json();
+        })
+        .then(data => {
+          console.log("JSON:", data);
+          document.getElementById('content').innerHTML = data.key;
+        });
+      console.log("promise:", promise);
+    </script>
+  </body>
+</html>
