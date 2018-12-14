@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>D3: Bar Chart</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="BarChart_style.css">
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</head>
+<body>
+<h1>Connected Home</h1>
+<script src="d3.min.js"></script>
+<h2>Barchart</h2>
+<a id="menu_btn"  onclick="openNav()" ><i class="fa fa-bars" style="color:grey;font-size: x-large" aria-hidden="true"></i>&nbsp;</a>
+<script type="text/javascript" src="/Users/Steffi/watchdog.json"></script>
+<script type="text/javascript">
+
+
+
+    d3.text("Alexa_D.csv", function(data) {
+        var parsedCSV = d3.csv.parseRows(data);
+        console.log(parsedCSV);
+        var container = d3.select("body")
+            .append("table")
+
+            .selectAll("tr")
+            .data(parsedCSV).enter()
+            .append("tr")
+
+            .selectAll("td")
+            .data(function(d) { return d; }).enter()
+            .append("td")
+            .text(function(d) { return d; });
+    });
+
+    d3.json("watchdog.js", function(error, data) {
+        if (error)
+            throw error;
+        console.log(data);
+    });
+
+
+
+  //  var rawData = '[{"item1":"tag1","a1":"b1"},{"item2":"tag2","a2":"b2"}]';
+  //  var Data2 = '/Users/Steffi/watchdog.json'
+  //  var parsed = JSON.parse(Data2);
+   // console.log(parsed[0].url); // logs "b1"
+   // console.log(parsed[1].url);
+
+
+    window.onload = function () {
+
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        title:{
+            text: ""
+        },
+        axisY: {
+            title: "Number of Articles"
+        },
+        data: [{
+            type: "column",
+            showInLegend: true,
+            legendMarkerColor: "grey",
+            legendText: "Buzzwords",
+            dataPoints: [
+                { y: 8, label: "Smart Home" },
+                { y: 0,  label: "Connected Home" },
+                { y: 27,  label: "Alexa" },
+                { y: 7,  label: "Echo" },
+                { y: 1,  label: "Fire TV" },
+                { y: 4, label: "Google Home" }
+
+            ]
+        }]
+    });
+    chart.render();
+
+    }
+
+</script>
+
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+        <a href="HypeCycle.html" class="w3-border-bottom" class="w3-border"><i class="fa fa-area-chart" aria-hidden="true"></i> &nbsp; Hype Cycle</a>
+        <a href="BubbleChart.html"class="w3-border-bottom"><i class="fa fa-pie-chart" aria-hidden="true"></i>&nbsp; Bubble Chart</a>
+        <a href="BarChart.html"class="w3-border-bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp; Bar Chart</a>
+        <a href="TestChart.html"class="w3-border-bottom"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Test Chart</a>
+    </div>
+
+
+<script>
+    /* Set the width of the side navigation to 250px */
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "210px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
+    }
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.body.style.backgroundColor = "rgba(0,0,0,0)";
+}
+</script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<!-- Use any element to open the sidenav -->
+<span onclick="openNav()">Open Sidebar</span>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>D3:Chart</title>
+    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="TestChart_style.css">
+    <style type="text/css">
+        /* No style rules here yet */
+    </style>
+</head>
+<body>
+<h1>Connected Home</h1>
+<h2>Chart</h2>
+<a id="menu_btn"  onclick="openNav()" ><i class="fa fa-bars" style="color:grey;font-size: x-large" aria-hidden="true"></i>&nbsp;</a>
+
+<script type="text/javascript">
+
+    d3.json("http://localhost:8083", function(data){
+
+
+        console.log(data)
+
+
+    });
+
+
+</script>
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+    <a href="HypeCycle.html" class="w3-border-bottom" class="w3-border"><i class="fa fa-area-chart" aria-hidden="true"></i> &nbsp;Hype Cycle</a>
+    <a href="BubbleChart.html"class="w3-border-bottom"><i class="fa fa-pie-chart" aria-hidden="true"></i>&nbsp; Bubble Chart</a>
+    <a href="BarChart.html"class="w3-border-bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp; Bar Chart</a>
+    <a href="TestChart.html"class="w3-border-bottom"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;Test Chart</a>
+</div>
+
+
+<script>
+    /* Set the width of the side navigation to 250px */
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "210px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
+    }
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.body.style.backgroundColor = "rgba(0,0,0,0)";
+}
+</script>
+
+
+
+</body>
+</html>
