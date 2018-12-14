@@ -439,6 +439,19 @@
         document.getElementById("mySidenav").style.width = "0";
         document.body.style.backgroundColor = "rgba(0,0,0,0)";
     }
+    
+     let promise = window.fetch("test.json")
+        .then(response => {
+          console.log("response:", response);
+          return response.json();
+        })
+        .then(data => {
+          console.log("JSON:", data);
+          document.getElementById('content').innerHTML = data.key;
+        });
+      console.log("promise:", promise);	
+	
+	
 </script>
 
 <p class = "quote">"There have been numerous criticisms of the hype cycle, prominent among which are that it is not a cycle, <br>that the outcome does not depend on the nature of the technology itself, that it is not scientific in nature, <br>and that it does not reflect changes over time in the speed at which technology develops." <br><a href="https://en.wikipedia.org/wiki/Hype_cycle">Source: Wikipedia</a></p>
