@@ -115,19 +115,6 @@
     if (keyword == "para1=Virtual Reality") {dataset = VirtualReality}
 
 
-    let promise = window.fetch("https://sambda.github.io/HypeCycle/Alexa5.json")
-        .then(response => {
-          console.log("response:", response);
-          return response.json();
-        })
-        .then(data => {
-          console.log("JSON:", data);
-          key = data.menu.title;
-          console.log("KEY:", title);
-        //  document.getElementById('content').innerHTML = data.key;
-        });
-      console.log("promise:", promise);
-
 
     setTimeout(function afterTwoSeconds() {
 
@@ -219,7 +206,7 @@
 <script>
     /* Set the width of the side navigation to 250px */
     function openNav() {
-        document.getElementById("mySidenav").style.width = "260px";
+        document.getElementById("mySidenav").style.width = "240px";
         document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
     }
 
