@@ -6,6 +6,7 @@
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="BubbleChart_style.css">
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <style type="text/css">
         /* No style rules here yet */
     </style>
@@ -37,71 +38,79 @@
 
     ConnectedHome = {
         "children": [
-            {"Name":"Smart Home","Count":8},
-            {"Name":"Tea","Connected Home":0},
-            {"Name":"Alexa","Count":27},
-            {"Name":"Echo","Count":7},
-            {"Name":"Fire TV","Count":1},
-            {"Name":"Google Home","Count":4}]
+            {"Name":"Smart Home","Count":97}, //auch Smart-Home
+            {"Name":"Connected-Home","Count":3},
+            {"Name":"Alexa","Count":189},
+            {"Name":"Innogy","Count":27},
+            {"Name":"e-Home","Count":1},
+            {"Name":"Google Home","Count":7}]
     };
 
     IoT = {
         "children": [
-            {"Name":"Internet of Things (IoT)","Count":21},
-            {"Name":"Internet der Dinge","Count":7},
-            {"Name":"M2M","Count":7},
-            {"Name":"CPS","Count":1},
-            {"Name":"WoT","Count":3},
-            {"Name":"Ambient Intelligence","Count":2}]
+            {"Name":"IoT","Count":3},
+            {"Name":"Internet of Things","Count":0},
+            {"Name":"Internet der Dinge","Count":2},
+            {"Name":"M2M","Count":0},
+            {"Name":"CPS","Count":32},
+            {"Name":"WoT","Count":2},
+            {"Name":"Ambient Intelligence","Count":0}]
     };
 
     FiveG = {
         "children": [
-            {"Name":"5G","Count":20},
-            {"Name":"4G","Count":4},
-            {"Name":"3G","Count":9}]
+            {"Name":"5G","Count":64},
+            {"Name":"5G-Technologie","Count":4}]
     };
 
     DeepLearning = {
         "children": [
-            {"Name":"Deep Learning","Count":25},
-            {"Name":"Maschine Learning","Count":5},
-            {"Name":"Neuronale Netze","Count":8},
-            {"Name":"maschinelles lernen","Count":2},
-            {"Name":"neural networks","Count":8},
-            {"Name":"Artificial Intelligence","Count":1}]
+            {"Name":"Deep Learning","Count":1},
+            {"Name":"Maschine Learning","Count":0},
+            {"Name":"Neuronale Netze","Count":1},
+            {"Name":"maschinelles lernen","Count":0},
+            {"Name":"neural networks","Count":0},
+            {"Name":"Artificial Intelligence","Count":10}]
     };
 
     AutonomousVehicles = {
         "children": [
-            {"Name":"Autonomous Vehicles","Count":14},
-            {"Name":"autonomes Fahren","Count":2},
-            {"Name":"Autonome Fahrzeuge","Count":7}]
+            {"Name":"Autonomous Vehicles","Count":2},
+            {"Name":"autonomes Fahren","Count":14},
+            {"Name":"Autonome Fahrzeuge","Count":0},
+            {"Name":"Autonomous driving","Count":0},
+            {"Name":"Autonomous-driving","Count":1},
+            {"Name":"Autonomous Car","Count":0},
+            {"Name":"Self-Driving","Count":16},
+            {"Name":"Self-Driving Car","Count":5},
+            {"Name":"driverless-car-in-training","Count":1},
+            {"Name":"Selbstfahrendes Fahrzeug","Count":0}]
     };
 
     Blockchain = {
         "children": [
-            {"Name":"Blockchain","Count":8},
-            {"Name":"Dezentrale Datenbank","Count":2},
-            {"Name":"Bitcoin","Count":8},
-            {"Name":"Crytourrency","Count":4}]
+            {"Name":"Blockchain","Count":30},
+            {"Name":"Dezentrale Datenbank","Count":0},
+            {"Name":"Bitcoin","Count":66},
+            {"Name":"Crytourrency","Count":0}]
     };
 
     AugmentedReality = {
         "children": [
-            {"Name":"Augmented Reality","Count":14},
-            {"Name":"AR","Count":2},
-            {"Name":"Erweiterte Realität","Count":7},
-            {"Name":"Mixed Reality","Count":4},
-            {"Name":"Enhanced Reality","Count":1}]
+            {"Name":"Augmented Reality","Count":2},
+            {"Name":"AR","Count":27},
+            {"Name":"Erweiterte Realität","Count":3},
+            {"Name":"Mixed Reality","Count":0},
+            {"Name":"Enhanced Reality","Count":0}]
     };
 
     VirtualReality= {
         "children": [
-            {"Name":"Virtual Reality","Count":14},
-            {"Name":"virtuelle Realität","Count":2},
-            {"Name":"VR","Count":7},
-            {"Name":"Virtuelle Wirklichkeit","Count":4}]
+            {"Name":"Virtual Reality","Count":13},
+            {"Name":"Virtual Reality- X","Count":58},
+            {"Name":"virtuelle Realität","Count":4},
+            {"Name":"VR","Count":26},
+            {"Name":"Virtuelle Wirklichkeit","Count":0}]
     };
 
 
@@ -115,10 +124,23 @@
     if (keyword == "para1=Virtual Reality") {dataset = VirtualReality}
 
 
+    let promise = window.fetch("https://sambda.github.io/HypeCycle/Alexa5.json")
+        .then(response => {
+          console.log("response:", response);
+          return response.json();
+        })
+        .then(data => {
+          console.log("JSON:", data);
+          key = data.menu.title;
+          console.log("KEY:", title);
+        //  document.getElementById('content').innerHTML = data.key;
+        });
+      console.log("promise:", promise);
+
 
     setTimeout(function afterTwoSeconds() {
 
-        var diameter = 1200;
+        var diameter = 1000;
         var color = d3.scaleOrdinal(d3.schemeCategory20);
         var bubble = d3.pack(dataset)
             .size([diameter, diameter])
@@ -188,11 +210,54 @@
         d3.select(self.frameElement)
             .style("height", diameter + "px");
 
+
     },500)
 
 
 
 
+
+
+
+
+
+
+</script>
+
+<script>
+
+    window.onload = function () {
+
+        /* Render BarChart */
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            title: {
+                text: ""
+            },
+            axisY: {
+                title: "Number of Articles"
+            },
+            data: [{
+                type: "column",
+                showInLegend: true,
+                legendMarkerColor: "grey",
+                legendText: "Buzzwords",
+                dataPoints: [
+                    {y: 306, label: "Connected Home"},
+                    {y: 96, label: "Blockchain"},
+                    {y: 37, label: "IoT Platform"},
+                    {y: 68, label: "5G"},
+                    {y: 12, label: "Deep Learning"},
+                    {y: 18, label: "Autonomous Vehicles"},
+                    {y: 29, label: "Augmented Reality"},
+                    {y: 64, label: "Virtual Reality"}
+                ]
+            }]
+        });
+        chart.render();
+
+    }
 </script>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
@@ -206,7 +271,7 @@
 <script>
     /* Set the width of the side navigation to 250px */
     function openNav() {
-        document.getElementById("mySidenav").style.width = "220px";
+        document.getElementById("mySidenav").style.width = "280px";
         document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
     }
 
@@ -217,6 +282,6 @@ function closeNav() {
 }
 </script>
 
-
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 </body>
 </html>
