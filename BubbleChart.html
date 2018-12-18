@@ -1,130 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>D3: A simple packed Bubble Chart</title>
-    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="BubbleChart_style.css">
-    <style type="text/css">
-        /* No style rules here yet */
-    </style>
-</head>
-<body>
-<h1>Connected Home</h1>
-<h2>Bubblechart</h2>
-<a id="menu_btn"  onclick="openNav()"><i class="fa fa-bars" style="width:1000px;height:0px;color:grey;font-size: x-large" aria-hidden="true"></i>&nbsp;</a>
-<script type="text/javascript">
-
-    d3.json("http://localhost:8083", function(data){
-        console.log(data)
-    });
-
-    dataset = {
-        "children": [{"Name":"Smart Home","Count":8},
-            {"Name":"Tea","Connected Home":0},
-            {"Name":"Alexa","Count":27},
-            {"Name":"Echo","Count":7},
-            {"Name":"Fire TV","Count":1},
-            {"Name":"Google Home","Count":4}]
-    };
-
-
-    var diameter = 700;
-    var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-    var bubble = d3.pack(dataset)
-        .size([diameter, diameter])
-        .padding(1.5);
-
-    var svg = d3.select("body")
-        .append("svg")
-        .attr("width", diameter)
-        .attr("height", diameter)
-        .attr("class", "bubble");
-
-    var nodes = d3.hierarchy(dataset)
-        .sum(function(d) { return d.Count; });
-
-    var node = svg.selectAll(".node")
-        .data(bubble(nodes).descendants())
-        .enter()
-        .filter(function(d){
-            return  !d.children
-        })
-        .append("g")
-        .attr("class", "node")
-        .attr("transform", function(d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        });
-
-    node.append("title")
-        .text(function(d) {
-            return d.Name + ": " + d.Count;
-        });
-
-    node.append("circle")
-        .attr("r", function(d) {
-            return d.r;
-        })
-        .style("fill", function(d,i) {
-            return color(i);
-        });
-
-    node.append("text")
-        .attr("dy", ".2em")
-        .style("text-anchor", "middle")
-        .text(function(d) {
-            return d.data.Name.substring(0, d.r / 3);
-        })
-        .attr("font-family", "sans-serif")
-        .attr("font-size", function(d){
-            return d.r/3.5;
-        })
-        .attr("fill", "white");
-
-    node.append("text")
-        .attr("dy", "1.3em")
-        .style("text-anchor", "middle")
-        .text(function(d) {
-            return d.data.Count;
-        })
-        .attr("font-family",  "Gill Sans", "Gill Sans MT")
-        .attr("font-size", function(d){
-            return d.r/3;
-        })
-        .attr("fill", "white");
-
-    d3.select(self.frameElement)
-        .style("height", diameter + "px");
-
-
-
-</script>
-<div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
-    <a href="HypeCycle.html" class="w3-border-bottom" class="w3-border"><i class="fa fa-area-chart" aria-hidden="true"></i> &nbsp;Hype Cycle</a>
-    <a href="BubbleChart.html"class="w3-border-bottom"><i class="fa fa-pie-chart" aria-hidden="true"></i>&nbsp; Bubble Chart</a>
-    <a href="BarChart.html"class="w3-border-bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp; Bar Chart</a>
-    <a href="TestChart.html"class="w3-border-bottom"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;Test Chart</a>
-</div>
-
-
-<script>
-    /* Set the width of the side navigation to 250px */
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "210px";
-        document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
-    }
-
-/* Set the width of the side navigation to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.body.style.backgroundColor = "rgba(0,0,0,0)";
+body {
+    text-align: center;
+    background-color: #ededed;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 12px;
 }
-</script>
+
+h1 {
+    color: steelblue;
+    font-size: xx-large;
+}
+h2 {
+    color: #999;
+    font-size: 20px;
+}
+
+.quote{
+    color: steelblue;
+    padding-top: 10px;
+    padding-right: 100px;
+    padding-bottom: 100px;
+    padding-left: 100px;
+}
 
 
-</body>
-</html>
+
+path {
+    fill: none;
+    stroke: #999;
+    stroke-width: 2;
+}
+
+svg {
+    box-shadow: 0px 0px 40px -5px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    margin: 10px;
+    margin-left: 150px;
+}
+svg path {
+    fill: none;
+}
+
+.axis line{
+    stroke: gray;
+    shape-rendering: crispEdges;
+    stroke: #eee;
+    stroke-width: 1;
+
+}
+
+.axis path{
+    stroke: gray;
+
+}
+
+.axis text{
+    fill: gray;
+}
+
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: steelblue; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 5px 35px 40px 30px;
+    text-decoration: none;
+    font-size: 28px;
+    font-family: auto;
+    color: white;
+    display: flex;
+    transitionsvg: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #999;
+}
+
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    font-size: 24px;
+    margin-left: 60px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 55px;
+        box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.2);}
+    .sidenav a {font-size: 18px;
+        margin-top: 15px;}
+}
+
+/* Layout Sidebar Text and Icons */
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 4px;
+    -moz-osx-font-smoothing: grayscale;
+
+}
+
+
+
+/* Sidebar Icon Position */
+.fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+    margin-left: -1000px;
+    content: "\f0c9";
+    font-size: xx-large;
+}
