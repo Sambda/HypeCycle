@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>D3: Bar Chart</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="BarChart_style.css">
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -14,45 +13,111 @@
 <script src="d3.min.js"></script>
 <h2>Barchart</h2>
 <a id="menu_btn"  onclick="openNav()" ><i class="fa fa-bars" style="color:grey;font-size: x-large" aria-hidden="true"></i>&nbsp;</a>
-<script type="text/javascript" src="/Users/Steffi/watchdog.json"></script>
 <script type="text/javascript">
-
-
-
-    d3.text("Alexa_D.csv", function(data) {
-        var parsedCSV = d3.csv.parseRows(data);
-        console.log(parsedCSV);
-        var container = d3.select("body")
-            .append("table")
-
-            .selectAll("tr")
-            .data(parsedCSV).enter()
-            .append("tr")
-
-            .selectAll("td")
-            .data(function(d) { return d; }).enter()
-            .append("td")
-            .text(function(d) { return d; });
-    });
-
-    d3.json("watchdog.js", function(error, data) {
-        if (error)
-            throw error;
-        console.log(data);
-    });
-
-
-
-  //  var rawData = '[{"item1":"tag1","a1":"b1"},{"item2":"tag2","a2":"b2"}]';
-  //  var Data2 = '/Users/Steffi/watchdog.json'
-  //  var parsed = JSON.parse(Data2);
-   // console.log(parsed[0].url); // logs "b1"
-   // console.log(parsed[1].url);
-
 
     window.onload = function () {
 
+        var dataset
 
+        /* Get the name of the selected HypeCycle point */
+        var queryString = decodeURIComponent(window.location.search);
+        queryString = queryString.substring(1);
+        var queries = queryString.split("&");
+        for (var i = 0; i < queries.length; i++)
+        {
+            var keyword = queries[i]
+            console.log("hulu:" + keyword)
+            //document.write(queries[i] + "<br>");
+
+        }
+
+        /* Different Datasets */
+        var IoT =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        var DeepLearning =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        var ConnectedHome =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        var FiveG =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        var AutonomousVehicles =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        var AugmentedReality =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        var VirtualReality =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        var Blockchain =  [
+            {y: 8, label: "Smart Home"},
+            {y: 0, label: "Connected Home"},
+            {y: 27, label: "Alexa"},
+            {y: 7, label: "Echo"},
+            {y: 1, label: "Fire TV"},
+            {y: 4, label: "Google Home"}
+        ]
+
+        /* Set the right dataset */
+
+        if( keyword == "para1=Connected Home"){dataset = ConnectedHome }
+        if (keyword == "para1=IoT") {dataset = IoT}
+        if( keyword == "para1=Deep Learning"){dataset = DeepLearning }
+        if (keyword == "para1=5G") {dataset = FiveG}
+        if( keyword == "para1=Autonomous Vehicles"){dataset = AutonomousVehicles }
+        if (keyword == "para1=Blockchain") {dataset = Blockchain}
+        if( keyword == "para1=Augmented Reality"){dataset = AugmentedReality }
+        if (keyword == "para1=Virtual Reality") {dataset = VirtualReality}
+
+
+
+     /* Render BarChart */
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
         theme: "light2", // "light1", "light2", "dark1", "dark2"
@@ -67,15 +132,7 @@
             showInLegend: true,
             legendMarkerColor: "grey",
             legendText: "Buzzwords",
-            dataPoints: [
-                { y: 8, label: "Smart Home" },
-                { y: 0,  label: "Connected Home" },
-                { y: 27,  label: "Alexa" },
-                { y: 7,  label: "Echo" },
-                { y: 1,  label: "Fire TV" },
-                { y: 4, label: "Google Home" }
-
-            ]
+            dataPoints: dataset
         }]
     });
     chart.render();
@@ -89,15 +146,14 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
         <a href="HypeCycle.html" class="w3-border-bottom" class="w3-border"><i class="fa fa-area-chart" aria-hidden="true"></i> &nbsp; Hype Cycle</a>
         <a href="BubbleChart.html"class="w3-border-bottom"><i class="fa fa-pie-chart" aria-hidden="true"></i>&nbsp; Bubble Chart</a>
-        <a href="BarChart.html"class="w3-border-bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp; Bar Chart</a>
-        <a href="TestChart.html"class="w3-border-bottom"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Test Chart</a>
+        <a class="w3-border-bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp; Bar Chart</a>
     </div>
 
 
 <script>
     /* Set the width of the side navigation to 250px */
     function openNav() {
-        document.getElementById("mySidenav").style.width = "210px";
+        document.getElementById("mySidenav").style.width = "280px";
         document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
     }
 
