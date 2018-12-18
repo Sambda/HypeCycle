@@ -16,25 +16,17 @@
 
 <body>
 <h1>Summer of Buzzwords</h1>
-<a onclick="openNav()" ><i class="fa fa-bars" style="width:700px;height:0px;color:grey;font-size: x-large" aria-hidden="true"></i>&nbsp;</a>
+
 
 <script>
-
-    d3.json("http://localhost:8083", function(data){
-        console.log(data)
-    });
-
-    var scaling = 1.5,
+    
+    var scaling = 2.3,
         w = 700 * scaling,
         h = 400 * scaling,
         selectedValue = "",
         padding = 30 * scaling;
-
-
-
     var lineGenerator = d3.line()
         .curve(d3.curveCardinal.tension(-0.5));
-
     var linePoints = [
         [100 * scaling, 350 * scaling],
         [200 * scaling, 50 * scaling],
@@ -42,7 +34,6 @@
         [500 * scaling, 250 * scaling],
         [650 * scaling, 240 * scaling]
     ];
-
     var hypePointsRight = [
         [220 * scaling, 65 * scaling, "Autonomous Vehicles"],
         [240 * scaling, 140 * scaling, "Blockchain"],
@@ -50,28 +41,19 @@
         [300 * scaling, 300 * scaling, "Augmented Reality"],
         [500 * scaling, 250 * scaling, "Virtual Reality"]
     ];
-
     var hypePointsLeft = [
         [132 * scaling, 200 * scaling, "5G"],
         [185 * scaling, 65 * scaling, "IoT Platform"],
         [210 * scaling, 50 * scaling, "Deep Learning"],
     ];
-
-
-
     var pathData = lineGenerator(linePoints);
-
     var svgCycle = d3.select("body")
         .append("svg")
         .attr("width", w)
         .attr("height", h);
-
-
     var lineGraph3 = svgCycle
         .append("path")
         .attr("d", pathData);
-
-
     //Create adaptable scales
     var xScale = d3.scaleLinear()
     //.domain([0, 600])
@@ -79,50 +61,41 @@
     var yScale = d3.scaleLinear()
     //.domain([0, 400])
         .range([h - padding, padding]);
-
     //Set up the axes
     var xAxis = d3.axisBottom(xScale)
         .tickValues([]);
-
     var yAxis = d3.axisLeft(yScale)
         .tickValues([]);
-
     svgCycle.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + (h - padding) + ")")
         .call(xAxis);
-
     svgCycle.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + padding + ",0)")
         .call(yAxis);
-
     function customXAxis(g) {
         g.call(xAxis);
         g.select(".domain").remove();
     }
-
     function customYAxis(g) {
         g.call(yAxis);
         g.select(".domain").remove();
         g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
         g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
     }
-
     // text label for the x axis
     svgCycle.append("text")
         .attr("transform", "translate(" + ((w-padding)/2) + " ," + ((h - 10 * scaling)) + ")")
         .style("text-anchor", "middle")
         .style("fill", "#999")
         .text("Time");
-
     // text label for the x axis
     svgCycle.append("text")
 			.attr("transform", "translate(" + (15*scaling) + " ," + ((h-padding)/2) + ")rotate(-90)")
 			.style("text-anchor", "middle")
 			.style("fill", "#999")
 			.text("Expectations");
-
 	//text for the phases
 	var phase1 = svgCycle.append("text")
 						.attr("transform", "translate(" + (160*scaling) + " ," + (350*scaling) + ")")
@@ -197,7 +170,6 @@
 								.style("fill","red")
 								.style("opacity",0)
 								.attr("transform", "translate(" + (110 * scaling) + ", " + (60*scaling) + ") rotate(13)")
-
 								.on("mouseover", function(){
 									d3.select(this)
 									phase1.style("opacity", 1.0)
@@ -214,7 +186,6 @@
 								.style("fill","red")
 								.style("opacity",0)
 								.attr("transform", "translate(" + (200 * scaling) + ", " + (40*scaling) + ") rotate(13)")
-
 								.on("mouseover", function(){
 									d3.select(this)
 									phase2.style("opacity", 1.0)
@@ -231,7 +202,6 @@
 								.style("fill","red")
 								.style("opacity",0)
 								.attr("transform", "translate(" + (310 * scaling) + ", " + (290*scaling) + ") rotate(13)")
-
 								.on("mouseover", function(){
 									d3.select(this)
 									phase3.style("opacity", 1.0)
@@ -249,7 +219,6 @@
 								.style("fill","red")
 								.style("opacity",0)
 								.attr("transform", "translate(" + (440 * scaling) + ", " + (205*scaling) + ") rotate(60)")
-
 								.on("mouseover", function(){
 									d3.select(this)
 									phase4.style("opacity", 1)
@@ -267,7 +236,6 @@
 								.style("fill","red")
 								.style("opacity",0)
 								.attr("transform", "translate(" + (440 * scaling) + ", " + (205*scaling) + ") rotate(0)")
-
 								.on("mouseover", function(){
 									d3.select(this)
 									phase5.style("opacity", 1)
@@ -284,8 +252,6 @@
 			.attr("r", 4 * scaling)
 			.attr("transform", function(d) { return "translate(" + d + ")"; })
 			.style("opacity", 0);
-
-
     var textsRight = svgCycle.append("g")
         .selectAll("text")
         .data(hypePointsRight)
@@ -302,7 +268,6 @@
         })
         .attr("font-size", "15px")
         .attr("fill", "steelblue");
-
     var buzzwordsRight = svgCycle.selectAll(".point")
         .data(hypePointsRight)
         .enter().append("circle")
@@ -311,7 +276,6 @@
 			.attr("stroke-width", 2 * scaling)
 			.style("stroke", "steelblue")
 			.style("fill", "none");
-
     var textsLeft = svgCycle.append("g")
         .selectAll("text")
         .data(hypePointsLeft)
@@ -329,7 +293,6 @@
         .attr("font-size", "15px")
         .attr("fill", "steelblue")
         .attr("text-anchor", "end");
-
     var buzzwordsLeft = svgCycle.selectAll(".point")
         .data(hypePointsLeft)
         .enter().append("circle")
@@ -346,12 +309,10 @@
                 .transition()
                 .duration(200)
                 .style("r", 10 * scaling);
-
             // Get current event info
             console.log(d3.event);
             // Get x & y co-ordinates
             console.log(d3.mouse(this));
-
         })
         .on("mouseout", function(){
             d3.select(this)
@@ -368,10 +329,27 @@
 
             // Get current event info
             console.log(d3.event);
-
             // Get x & y co-ordinates
             console.log(d3.mouse(this));
 
+            /* Get the right name of the selected Point and open BubbleChart HTML with the right Data */
+            selectedValue = d3.select(this)._groups[0][0].__data__[2];
+
+            if(selectedValue == "IoT Platform"){
+                var valueBubble="IoT";
+                var queryString = "?para1=" + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
+            }
+            if(selectedValue == "5G"){
+                var valueBubble="5G";
+                var queryString = "?para1=" + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
+            }
+            if(selectedValue == "Deep Learning"){
+                var valueBubble="Deep Learning";
+                var queryString = "?para1=" + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
+            }
         });
 
     buzzwordsRight
@@ -381,13 +359,10 @@
                 .transition()
                 .duration(200)
                 .style("r", 10 * scaling);
-
             // Get current event info
             console.log(d3.event);
-
             // Get x & y co-ordinates
             console.log(d3.mouse(this));
-
         })
         .on("mouseout", function(){
             d3.select(this)
@@ -395,52 +370,55 @@
                 .duration(200)
                 .style("r", 6 * scaling)
                 .style("fill","none");
-
         })
         .on("click",function(){
             d3.select(this)
                 .transition()
                 .duration(200)
                 .style("r", 10 * scaling);
-            //Change Window
-            // Get Name of the selected Point
-            console.log(d3.select(this)._groups[0][0].__data__[2]);
+
+            /* Get the right name of the selected Point and open BubbleChart HTML with the right Data */
+
             selectedValue = d3.select(this)._groups[0][0].__data__[2];
 
             if(selectedValue == "Connected Home"){
-                window.location = "BubbleChart.html"
+                var valueBubble="Connected Home";
+                var queryString = "?para1="  + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
             }
+            if(selectedValue == "Autonomous Vehicles"){
+                var valueBubble="Autonomous Vehicles";
+                var queryString = "?para1="  + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
+            }
+            if(selectedValue == "Blockchain"){
+                var valueBubble="Blockchain";
+                var queryString = "?para1="  + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
+            }
+            if(selectedValue == "Augmented Reality"){
+                var valueBubble="Augmented Reality";
+                var queryString = "?para1="  + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
+            }
+            if(selectedValue == "Virtual Reality"){
+                var valueBubble="Virtual Reality";
+                var queryString = "?para1="  + valueBubble;
+                window.location.href = "BubbleChart.html" + queryString;
+            }
+
 
         });
 
-
 								
-
 </script>
 
-<div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
-    <a href="HypeCycle.html" class="w3-border-bottom" class="w3-border"><i class="fa fa-area-chart" aria-hidden="true"></i> &nbsp;Hype Cycle</a>
-    <a href="BubbleChart.html"class="w3-border-bottom"><i class="fa fa-pie-chart" aria-hidden="true"></i>&nbsp; Bubble Chart</a>
-    <a href="BarChart.html"class="w3-border-bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp; Bar Chart</a>
-    <a href="TestChart.html"class="w3-border-bottom"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;Test Chart</a>
-</div>
 
 
 <script>
-    /* Set the width of the side navigation to 250px */
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "210px";
-        document.body.style.backgroundColor = "rgba(0,0,0,0.1)";
-    }
 
-    /* Set the width of the side navigation to 0 */
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.body.style.backgroundColor = "rgba(0,0,0,0)";
-    }
-    
-     let promise = window.fetch("test.json")
+    /*
+     let promise = window.fetch("https://sambda.github.io/HypeCycle/test.json")
         .then(response => {
           console.log("response:", response);
           return response.json();
@@ -449,7 +427,7 @@
           console.log("JSON:", data);
         //  document.getElementById('content').innerHTML = data.key;
         });
-      console.log("promise:", promise);	
+      console.log("promise:", promise);	*/
 	
 	
 </script>
