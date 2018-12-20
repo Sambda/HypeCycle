@@ -149,7 +149,7 @@
             barGroups.append('text')
                 .attr('class', 'divergence')
                 .attr('x', (a) => xScale(a.hypeTerm) + xScale.bandwidth() / 2)
-                .attr('y', (a) => yScale(a.value) + 30)
+                .attr('y', (a) => yScale(a.value) - 20)
                 .attr('fill', 'white')
                 .attr('text-anchor', 'middle')
                 .text((a, idx) => {
@@ -157,7 +157,7 @@
 
                     let text = ''
                     if (divergence > 0) text += '+'
-                    text += `${divergence}%`
+                    text += `${divergence}`
 
                     return idx !== i ? text : '';
                 })
@@ -184,7 +184,7 @@
         .attr('x', (a) => xScale(a.hypeTerm) + xScale.bandwidth() / 2)
         .attr('y', (a) => yScale(a.value) - 20)
         .attr('text-anchor', 'middle')
-        .text((a) => `${a.value}%`)
+        .text((a) => `${a.value}`)
 
     svg
         .append('text')
