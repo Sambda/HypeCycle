@@ -134,14 +134,14 @@
 
     setTimeout(function afterTwoSeconds() {
 
-        var diameter = 800;
+        var diameter = 1000;
         var color = d3.scaleOrdinal(d3.schemeCategory20);
         var bubble = d3.pack(dataset)
             .size([diameter, diameter])
             .padding(1.5);
 
 
-        var svg = d3.select("body")
+        var svg = d3.select(".bubbleContent")
             .append("svg")
             .attr("width", diameter)
             .attr("height", diameter)
@@ -152,17 +152,46 @@
                 return d.Count;
             });
 
+        var tooltip = d3.select(".bubbleContent")
+            .append("div")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("visibility", "hidden")
+            .style("color", "white")
+            .style("padding", "10px")
+            .style("background-color", "rgba(0, 0, 0, 0.75)")
+            .style("border-radius", "6px")
+            .style("font", "28px sans-serif")
+            .text("tooltip");
+
+
         var node = svg.selectAll(".node")
             .data(bubble(nodes).descendants())
             .enter()
+
             .filter(function (d) {
                 return !d.children
+
             })
             .append("g")
             .attr("class", "node")
             .attr("transform", function (d) {
-                return "translate(" + d.x + "," + d.y + ")";
-            });
+                return "translate(" + d.x + "," + d.y + ")"
+            })
+            .on("mouseover", function(d){
+                // WARUM geht d.Count bzw. d.Name nicht :(  ?
+                tooltip.html("Count: "+ d.data.Count + "<br>" + "Name:" + d.data.Name);
+                console.log("d:" + d)
+                return tooltip.style("visibility", "visible");})
+            .on("mousemove", function(){
+                return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+            .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+
+        node.append("text")
+            .attr("dy", ".3em")
+            .style("text-anchor", "middle")
+            .style("pointer-events", "none")
+            .text(function(d) { return d.Count; });
 
         node.append("title")
             .text(function (d) {
@@ -176,6 +205,9 @@
             .style("fill", function (d, i) {
                 return color(i);
             });
+
+
+
 
         node.append("text")
             .attr("dy", ".2em")
@@ -201,11 +233,14 @@
             })
             .attr("fill", "white");
 
+
+
         d3.select(self.frameElement)
             .style("height", diameter + "px");
 
 
     },0)
+
 
 </script>
 
@@ -253,7 +288,7 @@
       }
 
   </script>
-
+<div class="bubbleContent" > </div>
 <p class = "footer">"The Bubblechart shows the number of newspaper articles matching the selected buzzword.<br> Because newspapers often use related words or synonyms, <br>we have included them.</a></p>
 
   </body>
