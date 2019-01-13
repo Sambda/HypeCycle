@@ -7,14 +7,14 @@
     <h1>It works!</h1>
     <div id="content">Loading...</div>
     <script type="text/javascript">
-      let promise = window.fetch("data.json")
+      let promise = window.fetch("../JSON/sorted/5G/5G-format.json")
         .then(response => {
           console.log("response:", response);
           return response.json();
         })
         .then(data => {
           console.log("JSON:", data);
-          document.getElementById('content').innerHTML = data.key;
+          document.getElementById('content').innerHTML = data.title;
         });
       console.log("promise:", promise);
     </script>
