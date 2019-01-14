@@ -44,173 +44,194 @@
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    /* Data in strings like it would be if imported from a csv */
-    var bildCount5G = 0;
+    /* Data */
+    var newspapers = ["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"]
 
-    d3.json("./JSON/sorted/5G/5G-format.json", function(error, data) {
-        //console.log(data); // this is your data
-        for(var i = 0; i < data.length; i++) {
-            var obj = data[i].newsportal;
-            if(obj == "Bild"){
-                bildCount5G = bildCount5G+1;
-                console.log(bildCount5G);
-            }
-        }
-        console.log(bildCount5G);
-    });
+    /* create a complete dict*/
+    var dict = {hypeterm: "2005"}
+    for(z = 0; z < newspapers.length; z++){
+        dict[newspapers[z]] = 0;
+    }
 
-    d3.json("./JSON/sorted/5G/5GTechnologie-format.json", function(error, data) {
-        for(var i = 0; i < data.length; i++) {
-            var obj = data[i].newsportal;
-            if(obj == "Bild"){
-                bildCount5G = bildCount5G+1;
-            }
-        }
-        //console.log(data); // this is your data
-        console.log(bildCount5G);
-    });
+    var dictIoT = {hypeterm: "2006"}
+    for(t = 0; t < newspapers.length; t++){
+        dictIoT[newspapers[t]] = 0;
+    }
 
-    console.log(bildCount5G);
-
-    var str = bildCount5G.toString();
-    //console.log(str);
-
-    //var testnum = 213.toString();
-
-    var data2 = [
-        {year: "2005", redDelicious: str, mcintosh: "15", oranges: "9", pears: "0"}
-    ];
-
-    var data = [
-        { year: "2006", redDelicious: str, mcintosh: "15", oranges: "9", pears: "6" },
-        { year: "2007", redDelicious: "12", mcintosh: "18", oranges: "9", pears: "4" },
-        { year: "2008", redDelicious: "05", mcintosh: "20", oranges: "8", pears: "2" },
-        { year: "2009", redDelicious: "01", mcintosh: "15", oranges: "5", pears: "4" },
-        { year: "2010", redDelicious: "02", mcintosh: "10", oranges: "4", pears: "2" },
-        { year: "2011", redDelicious: "03", mcintosh: "12", oranges: "6", pears: "3" },
-        { year: "2012", redDelicious: "04", mcintosh: "15", oranges: "8", pears: "1" },
-        { year: "2013", redDelicious: "06", mcintosh: "11", oranges: "9", pears: "4" },
-        { year: "2014", redDelicious: "10", mcintosh: "13", oranges: "9", pears: "5" },
-        { year: "2015", redDelicious: "16", mcintosh: "19", oranges: "6", pears: "9" },
-        { year: "2016", redDelicious: "19", mcintosh: "17", oranges: "5", pears: "7" },
-    ];
-
-    var parse = d3.time.format("%Y").parse;
+    /*different hype term variations*/
+    var filenames5G = ["5G-format", "5GTechnologie-format"]
+    var filenamesIoT = ["InternetDerDinge", "IoT", "WoT"]
 
 
-    // Transpose the data into layers
-    var dataset = d3.layout.stack()(["redDelicious", "mcintosh", "oranges", "pears"].map(function(fruit) {
-        return data2.map(function(d) {
-            return {x: parse(d.year), y: +d[fruit]};
-        });
-    }));
+    for (w = 0; w < filenames5G.length; w++) {
+        d3.json("./JSON/sorted/5G/" + filenames5G[w] + ".json", function(error, data) {
+            //console.log(data); // this is your data
+            for(var i = 0; i < data.length; i++) {
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dict[newspapers[j]] = dict[newspapers[j]] + 1;
+                    }
+                }
 
-
-    // Set x, y and colors
-    var x = d3.scale.ordinal()
-        .domain(dataset[0].map(function(d) { return d.x; }))
-        .rangeRoundBands([10, width-10], 0.02);
-
-    var y = d3.scale.linear()
-        .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
-        .range([height, 0]);
-
-    var colors = ["b33040", "#d25c4d", "#f2b447", "#d9d574"];
-
-
-    // Define and draw axes
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .ticks(5)
-        .tickSize(-width, 0, 0)
-        .tickFormat( function(d) { return d } );
-
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .tickFormat(d3.time.format("%Y"));
-
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
-
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
-
-
-    // Create groups for each series, rects for each segment
-    var groups = svg.selectAll("g.cost")
-        .data(dataset)
-        .enter().append("g")
-        .attr("class", "cost")
-        .style("fill", function(d, i) { return colors[i]; });
-
-    var rect = groups.selectAll("rect")
-        .data(function(d) { return d; })
-        .enter()
-        .append("rect")
-        .attr("x", function(d) { return x(d.x); })
-        .attr("y", function(d) { return y(d.y0 + d.y); })
-        .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
-        .attr("width", x.rangeBand())
-        .on("mouseover", function() { tooltip.style("display", null); })
-        .on("mouseout", function() { tooltip.style("display", "none"); })
-        .on("mousemove", function(d) {
-            var xPosition = d3.mouse(this)[0] - 15;
-            var yPosition = d3.mouse(this)[1] - 25;
-            tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-            tooltip.select("text").text(d.y);
-        });
-
-
-    // Draw legend
-    var legend = svg.selectAll(".legend")
-        .data(colors)
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(30," + i * 19 + ")"; });
-
-    legend.append("rect")
-        .attr("x", width - 18)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", function(d, i) {return colors.slice().reverse()[i];});
-
-    legend.append("text")
-        .attr("x", width + 5)
-        .attr("y", 9)
-        .attr("dy", ".35em")
-        .style("text-anchor", "start")
-        .text(function(d, i) {
-            switch (i) {
-                case 0: return "Anjou pears";
-                case 1: return "Naval oranges";
-                case 2: return "McIntosh apples";
-                case 3: return "Red Delicious apples";
             }
         });
+    }
 
 
-    // Prep the tooltip bits, initial display is hidden
-    var tooltip = svg.append("g")
-        .attr("class", "tooltip")
-        .style("display", "none");
+    for (w = 0; w < filenamesIoT.length; w++) {
+        d3.json("./JSON/sorted/IoT/" + filenamesIoT[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                console.log(i)
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictIoT[newspapers[j]] = dictIoT[newspapers[j]] + 1;
+                    }
+                }
 
-    tooltip.append("rect")
-        .attr("width", 30)
-        .attr("height", 20)
-        .attr("fill", "white")
-        .style("opacity", 0.5);
+            }
+        });
+    }
 
-    tooltip.append("text")
-        .attr("x", 15)
-        .attr("dy", "1.2em")
-        .style("text-anchor", "middle")
-        .attr("font-size", "12px")
-        .attr("font-weight", "bold");
+
+    setTimeout(function afterTwoSeconds() {
+
+        console.log(dict);
+        console.log(dictIoT);
+
+        var data2 = [dict,dictIoT];
+
+
+        var parse = d3.time.format("%Y").parse;
+
+        // Transpose the data into layers
+        var dataset = d3.layout.stack()(["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"].map(function(fruit) {
+            return data2.map(function(d) {
+                return {x: parse(d.hypeterm), y: +d[fruit]};
+                //return {x: d.hypeTerm, y: +d[fruit]};
+            });
+        }));
+
+
+        // Set x, y and colors
+        var x = d3.scale.ordinal()
+            .domain(dataset[0].map(function(d) { return d.x; }))
+            .rangeRoundBands([10, width-10], 0.02);
+
+        var y = d3.scale.linear()
+            .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
+            .range([height, 0]);
+
+        var colors = ["b33040", "#d25c4d", "#f2b447", "#d9d574", "b33040", "#d25c4d", "#f2b447", "#d9d574", "b33040", "#d25c4d", "#f2b447", "#d9d574", "#00000"];
+
+
+        // Define and draw axes
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .ticks(5)
+            .tickSize(-width, 0, 0)
+            .tickFormat( function(d) { return d } );
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .tickFormat(d3.time.format("%Y"));
+            //.tickFormat("mau");
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+
+        // Create groups for each series, rects for each segment
+        var groups = svg.selectAll("g.cost")
+            .data(dataset)
+            .enter().append("g")
+            .attr("class", "cost")
+            .style("fill", function(d, i) { return colors[i]; });
+
+        var rect = groups.selectAll("rect")
+            .data(function(d) { return d; })
+            .enter()
+            .append("rect")
+            .attr("x", function(d) { return x(d.x); })
+            .attr("y", function(d) { return y(d.y0 + d.y); })
+            .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
+            .attr("width", x.rangeBand())
+            .on("mouseover", function() { tooltip.style("display", null); })
+            .on("mouseout", function() { tooltip.style("display", "none"); })
+            .on("mousemove", function(d) {
+                var xPosition = d3.mouse(this)[0] - 15;
+                var yPosition = d3.mouse(this)[1] - 25;
+                tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+                tooltip.select("text").text(d.y);
+            });
+
+
+        // Draw legend
+        var legend = svg.selectAll(".legend")
+            .data(colors)
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function(d, i) { return "translate(30," + i * 19 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d, i) {return colors.slice().reverse()[i];});
+
+        legend.append("text")
+            .attr("x", width + 5)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(function(d, i) {
+                switch (i) {
+                    case 0: return "Zeit";
+                    case 1: return "Welt";
+                    case 2: return "Die Tageszeitung";
+                    case 3: return "Sueddeutsche Zeitung";
+                    case 4: return "Stern";
+                    case 5: return "Spiegel Online";
+                    case 6: return "Russia Today";
+                    case 7: return "New York Times";
+                    case 8: return "Guardian";
+                    case 9: return "Focus";
+                    case 10: return "Frankfurter Allgemeine Zeitung";
+                    case 11: return "Donaukurier";
+                    case 12: return "Bild";
+                }
+            });
+
+
+        // Prep the tooltip bits, initial display is hidden
+        var tooltip = svg.append("g")
+            .attr("class", "tooltip")
+            .style("display", "none");
+
+        tooltip.append("rect")
+            .attr("width", 30)
+            .attr("height", 20)
+            .attr("fill", "white")
+            .style("opacity", 0.5);
+
+        tooltip.append("text")
+            .attr("x", 15)
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .attr("font-size", "12px")
+            .attr("font-weight", "bold");
+
+    },30)
+
 
 </script>
 </body>
