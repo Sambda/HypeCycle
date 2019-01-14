@@ -11,7 +11,7 @@ h1 {
 }
 h2 {
     color: #999;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 /* Style the top navigation bar */
@@ -54,6 +54,17 @@ h2 {
     font-size: 18px;
 }
 
+/* Container for Textfiled with the NoHits Content */
+.NoHits {
+    box-shadow: 0px 0px 40px -5px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    margin: 10px;
+    width: max-content;
+    margin-top: -300px;
+    margin-right: 20px;
+    float: right;
+}
+
 path {
     fill: none;
     stroke: #999;
@@ -67,6 +78,15 @@ svg {
 }
 svg path {
     fill: none;
+}
+* {
+    box-sizing: border-box;
+}
+
+.box {
+    float: left;
+    width: 33.33%; /* three boxes (use 25% for four, and 50% for two, etc) */
+    padding: 50px; /* if you want space between the images */
 }
 
 .axis line{
@@ -111,6 +131,7 @@ svg path {
     display: flex;
     transitionsvg: 0.3s;
 }
+
 
 .sidenav a:hover {
     color: #999;
