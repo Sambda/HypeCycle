@@ -48,12 +48,12 @@
     var newspapers = ["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"]
 
     /* create a complete dict*/
-    var dict = {hypeterm: "2005"}
+    var dict = {hypeterm: "5G"}
     for(z = 0; z < newspapers.length; z++){
         dict[newspapers[z]] = 0;
     }
 
-    var dictIoT = {hypeterm: "2006"}
+    var dictIoT = {hypeterm: "IoT"}
     for(t = 0; t < newspapers.length; t++){
         dictIoT[newspapers[t]] = 0;
     }
@@ -68,9 +68,13 @@
             //console.log(data); // this is your data
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
+                console.log(obj)
                 for(j = 0; j < newspapers.length; j++){
+
                     if(obj == newspapers[j]){
                         dict[newspapers[j]] = dict[newspapers[j]] + 1;
+                        break;
+
                     }
                 }
 
@@ -103,12 +107,10 @@
         var data2 = [dict,dictIoT];
 
 
-        var parse = d3.time.format("%Y").parse;
-
         // Transpose the data into layers
         var dataset = d3.layout.stack()(["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"].map(function(fruit) {
             return data2.map(function(d) {
-                return {x: parse(d.hypeterm), y: +d[fruit]};
+                return {x: d.hypeterm, y: +d[fruit]};
                 //return {x: d.hypeTerm, y: +d[fruit]};
             });
         }));
@@ -137,7 +139,8 @@
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom")
-            .tickFormat(d3.time.format("%Y"));
+            .tickFormat( function(d) { return d } );
+
             //.tickFormat("mau");
 
         svg.append("g")
