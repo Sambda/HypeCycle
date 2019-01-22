@@ -28,9 +28,6 @@
 <head>
     <title>Summer of BuzzWords</title>
     <script src="d3.min.js"></script>
-
-
-
 </head>
 
 <body>
@@ -47,9 +44,6 @@
 
 <div class="StackedBarChartContainer"></div>
 <script>
-
-
-
 
     var scaling = 1.15,
         w = 700 * scaling,
@@ -338,7 +332,7 @@
             d3.select(this)
                 .style("fill", "orange")
                 .transition()
-                .duration(200)
+                .duration(600)
                 .style("r", 10 * scaling);
             // Get current event info
             console.log(d3.event);
@@ -352,19 +346,23 @@
                 .style("r", 6 * scaling)
                 .style("fill","none");
         })
+
         .on("click",function(){
             d3.select(this)
                 .transition()
-                .duration(200)
+                .duration(600)
                 .style("r", 10 * scaling);
 
             // Get current event info
-            console.log(d3.event);
+          //  console.log(d3.event);
             // Get x & y co-ordinates
-            console.log(d3.mouse(this));
-
+            //console.log(d3.mouse(svg.node));
+            console.log("Hhu:")
+            console.log(d3.select(this)[0])
             /* Get the right name of the selected Point and open BubbleChart HTML with the right Data */
-            selectedValue = d3.select(this)._groups[0][0].__data__[2];
+          //  selectedValue = d3.select(this)._groups[0][0].__data__[2];
+            selectedValue = d3.select(this)[0][0].__data__[2];
+
 
             if(selectedValue == "IoT Platform"){
                 var valueBubble="IoT";
@@ -410,7 +408,7 @@
 
             /* Get the right name of the selected Point and open BubbleChart HTML with the right Data */
 
-            selectedValue = d3.select(this)._groups[0][0].__data__[2];
+            selectedValue = d3.select(this)[0][0].__data__[2];
 
             if(selectedValue == "Connected Home"){
                 var valueBubble="Connected Home";
@@ -622,7 +620,7 @@
         .attr('y', margin / 2.4)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Number of Mentions')
+        .text('Number of mentions')
     svg2.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + margin)
@@ -668,7 +666,7 @@
 <script>
 
     // Setup svg using Bostock's margin convention
-    var margin2 = {top: 20, right: 180, bottom: 35, left: 50};
+    var margin2 = {top: 20, right: 160, bottom: 35, left: 30};
     var width2 = 960 - margin2.left - margin2.right,
         height2 = 480 - margin2.top - margin2.bottom;
     var svg = d3.select(".StackedBarChartContainer")
@@ -1011,14 +1009,6 @@
 
     },400)
 
-    svg
-        .append('text')
-        .attr('class', 'label')
-        .attr('x', -(height / 2) - margin )
-        .attr('y', margin / 2.4 -60)
-        .attr('transform', 'rotate(-90)')
-        .attr('text-anchor', 'middle')
-        .text('Number of Mentions')
 
 
 </script>
