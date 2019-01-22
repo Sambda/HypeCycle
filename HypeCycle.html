@@ -622,7 +622,7 @@
         .attr('y', margin / 2.4)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .text('Number of mentions')
+        .text('Number of Mentions')
     svg2.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + margin)
@@ -667,7 +667,7 @@
 <script>
 
     // Setup svg using Bostock's margin convention
-    var margin2 = {top: 20, right: 160, bottom: 35, left: 30};
+    var margin2 = {top: 20, right: 180, bottom: 35, left: 50};
     var width2 = 960 - margin2.left - margin2.right,
         height2 = 480 - margin2.top - margin2.bottom;
     var svg = d3.select(".StackedBarChartContainer")
@@ -1010,6 +1010,14 @@
 
     },400)
 
+    svg
+        .append('text')
+        .attr('class', 'label')
+        .attr('x', -(height / 2) - margin )
+        .attr('y', margin / 2.4 -60)
+        .attr('transform', 'rotate(-90)')
+        .attr('text-anchor', 'middle')
+        .text('Number of Mentions')
 
 
 </script>
