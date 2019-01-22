@@ -4,7 +4,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="HypeCycle_style.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
+<style type="text/css">
+    svg {
+        font: 10px sans-serif;
+        shape-rendering: crispEdges;
+    }
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+    }
+    path.domain {
+        stroke: none;
+    }
+    .y .tick line {
+        stroke: #ddd;
+    }
+</style>
 
 
 
@@ -12,11 +28,7 @@
 <head>
     <title>Summer of BuzzWords</title>
     <script src="d3.min.js"></script>
-    <script>
-        $(function(){
-            $("#include_html").load("BarChartD3.html");
-        });
-    </script>
+
 
 
 </head>
@@ -33,6 +45,7 @@
 <h2>Bar Chart with a Visualisation of the newsportals per Buzzword</h2>
 <div class="BarChartContainer" > </div>
 
+<div class="StackedBarChartContainer"></div>
 <script>
 
 
@@ -450,11 +463,11 @@
 
 </script>
 
-<button type="button" onclick="changeChart()">Show Newspapers</button>
+<button class =".ButtonBarChart" type="button" onclick="changeChart()">Show Newspapers</button>
 
 
 <script>
-    // https://insights.stackoverflow.com/survey/2018/#technology-most-loved-dreaded-and-wanted-languages
+
     const sample = [
         {
             hypeTerm: '5G',
@@ -620,19 +633,385 @@
         .attr('y', 40)
         .attr('text-anchor', 'middle')
 
-
+    var index = 0
     // Function is called when button is clicked
     var changeChart = function(){
         console.log("button clicked!");
-        barGroups
-            .style("fill", "blue")
+        if (index % 2 == 0) {
+            d3.selectAll(".StackedBarChartContainer").style("visibility", "inherit");
+            d3.selectAll(".BarChartContainer").style("visibility", "hidden");
+            d3.selectAll(".BarChartContainer").style("height", 0 + "px");
+            d3.selectAll(".StackedBarChartContainer").style("height", 550 + "px")
+
+            index = index + 1 //445
+
+        } else {
+            d3.selectAll(".StackedBarChartContainer").style("visibility", "hidden");
+            d3.selectAll(".BarChartContainer").style("visibility", "inherit");
+            d3.selectAll(".StackedBarChartContainer").style("height", 550 + "px")
+
+            index = index+1
+
+        }
+
     }
 
+
+
 </script>
 
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script>
 
+    // Setup svg using Bostock's margin convention
+    var margin2 = {top: 20, right: 160, bottom: 35, left: 30};
+    var width2 = 960 - margin2.left - margin2.right,
+        height2 = 480 - margin2.top - margin2.bottom;
+    var svg = d3.select(".StackedBarChartContainer")
+        .append("svg")
+        .attr("width", width2 + margin2.left + margin2.right)
+        .attr("height", height2 + margin2.top + margin2.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+    /* Data */
+    var newspapers = ["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"]
+    var newspaperNames = ["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"]
+
+    /* create a complete dict*/
+    var dict5G = {hypeterm: "5G"}
+    for(z = 0; z < newspapers.length; z++){
+        dict5G[newspapers[z]] = 0;   // = [0,newspapers[z]];
+        //var xt = 14 +z
+        //dict5G[newspaperNames[xt]] = newspapers[z];
+    }
+    var dictIoT = {hypeterm: "IoT"}
+    for(t = 0; t < newspapers.length; t++){
+        dictIoT[newspapers[t]] = 0;
+    }
+    var dictDeepLearning = {hypeterm: "Deep Learning"}
+    for(t = 0; t < newspapers.length; t++){
+        dictDeepLearning[newspapers[t]] = 0;
+    }
+    var dictAutonomousVehicles = {hypeterm: "Autonomous Vehicles"}
+    for(t = 0; t < newspapers.length; t++){
+        dictAutonomousVehicles[newspapers[t]] = 0;
+    }
+    var dictBlockchain = {hypeterm: "Blockchain"}
+    for(t = 0; t < newspapers.length; t++){
+        dictBlockchain[newspapers[t]] = 0;
+    }
+    var dictConnectedHome = {hypeterm: "Connected Home"}
+    for(t = 0; t < newspapers.length; t++){
+        dictConnectedHome[newspapers[t]] = 0;
+    }
+    var dictAugmentedReality = {hypeterm: "AugmentedReality"}
+    for(t = 0; t < newspapers.length; t++){
+        dictAugmentedReality[newspapers[t]] = 0;
+    }
+    var dictVirtualReality = {hypeterm: "Virtual Reality"}
+    for(t = 0; t < newspapers.length; t++){
+        dictVirtualReality[newspapers[t]] = 0;
+    }
+    /*different hype term variations*/
+    var filenames5G = ["5G-format", "5GTechnologie-format"]
+    var filenamesIoT = ["InternetDerDinge", "IoT", "WoT"]
+    var filenamesDeepLearning = ["DeepLearning", "NeuronaleNetze","ArtificialIntelligence"]
+    var filenamesAutonomousVehicles = ["AutonomousVehicles","Autonomesfahren", "Autonomous-Driving","Self-Driving","Self-drivingCar","Driverless-car-in-training"]
+    var filenamesBlockchain = ["BLOCKCHAIN_JOIN", "BITCOIN_JOIN"]
+    var filenamesConnectedHome = ["SmartHome_JOIN4", "Alexa_JOIN2","EHOME_JOIN","GoogleHome","AmazonEcho"]
+    var filenamesAugmentedReality = ["Augmented-Reality", "AR","ErweiterteRealitaet"]
+    var filenamesVirtualReality = ["VirtualReality", "VirtualReality-", "VirtuelleRealitaet","VR"]
+
+    for (w = 0; w < filenames5G.length; w++) {
+        d3.json("./JSON/sorted/5G/" + filenames5G[w] + ".json", function(error, data) {
+            //console.log(data); // this is your data
+            for(var i = 0; i < data.length; i++) {
+                var obj = data[i].newsportal;
+                //console.log(obj)
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dict5G[newspapers[j]] = dict5G[newspapers[j]] + 1;
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    for (w = 0; w < filenamesIoT.length; w++) {
+        d3.json("./JSON/sorted/IoT/" + filenamesIoT[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictIoT[newspapers[j]] = dictIoT[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
+
+    for (w = 0; w < filenamesAugmentedReality.length; w++) {
+        d3.json("./JSON/sorted/AugmentedReality/" + filenamesAugmentedReality[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictAugmentedReality[newspapers[j]] = dictAugmentedReality[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
+
+    for (w = 0; w < filenamesDeepLearning.length; w++) {
+        d3.json("./JSON/sorted/DeepLearning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                //console.log(i)
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictDeepLearning[newspapers[j]] = dictDeepLearning[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
+
+    for (w = 0; w < filenamesAutonomousVehicles.length; w++) {
+        d3.json("./JSON/sorted/AutonomousVehicles/" + filenamesAutonomousVehicles[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictAutonomousVehicles[newspapers[j]] = dictAutonomousVehicles[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
+
+    for (w = 0; w < filenamesBlockchain.length; w++) {
+        d3.json("./JSON/sorted/Blockchain/" + filenamesBlockchain[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictBlockchain[newspapers[j]] = dictBlockchain[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
+
+    for (w = 0; w < filenamesConnectedHome.length; w++) {
+        d3.json("./JSON/sorted/ConnectedHome/" + filenamesConnectedHome[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                //console.log(i)
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictConnectedHome[newspapers[j]] = dictConnectedHome[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
+
+
+    for (w = 0; w < filenamesVirtualReality.length; w++) {
+        d3.json("./JSON/sorted/VirtualReality/" + filenamesVirtualReality[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                //console.log(i)
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictVirtualReality[newspapers[j]] = dictVirtualReality[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
+
+    setTimeout(function afterTwoSeconds() {
+        //console.log(dict5G);
+        //console.log(dictIoT);
+        var data_stacked = [dict5G,dictIoT,dictDeepLearning, dictAutonomousVehicles, dictBlockchain, dictConnectedHome, dictAugmentedReality,dictVirtualReality];
+
+
+        var dataset_stacked = d3.layout.stack()(["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"].map(function(fruit) {
+
+
+            console.log(data_stacked)
+
+            return data_stacked.map(function(d) {
+                for (i = 0; i < 7; i++) {
+                    var nameOb = newspapers[i]
+
+                    for (w = 0; w < 7; w++)
+                    {
+                        return {x: d.hypeterm, y: +d[fruit]};
+                        break
+                    }
+                }
+
+
+//return {x: d.hypeTerm, y: +d[fruit]};
+            });
+        }));
+
+        /* zipped = list(zip(newspapers, dataset))
+         console.log(zipped)*/
+        // Set x, y and colors
+        var x = d3.scale.ordinal()
+            .domain(dataset_stacked[0].map(function(d) { return d.x; }))
+            .rangeRoundBands([10, width2-10], 0.02);
+
+        var y = d3.scale.linear()
+            .domain([0, d3.max(dataset_stacked, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
+            .range([height2, 0]);
+
+        var colors = [
+            "#e6194b",
+            "#f58231",
+            "#ffe119",
+            "#bfef45",
+            "#3cb44b",
+            "#42d4f4",
+            "#4363d8",
+            "#911eb4",
+            "#f032e6",
+            "#000075",
+            "#808000",
+            "#ffb8b1",
+            "#800000"];
+
+        var layers = d3.layout.stack()(
+            dataset_stacked.map(function (count) {
+                return data_stacked.map(function (d,i) {
+                    return { x: d.orders, y: +d[count] , color:  colors[i]};
+                    /*color = current headers item color */
+
+                });
+            }));
+
+
+        // Define and draw axes
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .ticks(5)
+            .tickSize(-width2, 0, 0)
+            .tickFormat( function(d) { return d } );
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .tickFormat( function(d) { return d } );
+
+        //.tickFormat("mau");
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height2 + ")")
+            .call(xAxis);
+
+
+        // Create groups for each series, rects for each segment
+        var groups = svg.selectAll("g.cost")
+            .data(dataset_stacked)
+            .enter().append("g")
+            .attr("class", "cost")
+            .style("fill", function(d, i) { return colors[i]; });
+
+        var rect = groups.selectAll("rect")
+            .data(function(d) { return d; })
+            .enter()
+            .append("rect")
+            .attr("x", function(d) { return x(d.x); })
+            .attr("y", function(d) { return y(d.y0 + d.y); })
+            .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
+            .attr("width", x.rangeBand())
+            .on("mouseover", function() { tooltip.style("display", null); })
+            .on("mouseout", function() { tooltip.style("display", "none"); })
+            .on("mousemove", function(d) {
+                var xPosition = d3.mouse(this)[0] - 15;
+                var yPosition = d3.mouse(this)[1] - 25;
+                console.log("d:")
+                console.log(d)
+                console.log(d3.mouse(this))
+                tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+                tooltip.select("text").text(d.y) ;
+                console.log(d3.mouse(this)[1])
+            });
+
+
+        // Draw legend
+        var legend = svg.selectAll(".legend")
+            .data(colors)
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function(d, i) { return "translate(30," + i * 22 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width2 - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d, i) {return colors.slice().reverse()[i];});
+
+        legend.append("text")
+            .attr("x", width2 + 5)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(function(d, i) {
+                switch (i) {
+                    case 0: return "Zeit";
+                    case 1: return "Welt";
+                    case 2: return "Die Tageszeitung";
+                    case 3: return "Sueddeutsche Zeitung";
+                    case 4: return "Stern";
+                    case 5: return "Spiegel Online";
+                    case 6: return "Russia Today";
+                    case 7: return "New York Times";
+                    case 8: return "Guardian";
+                    case 9: return "Focus";
+                    case 10: return "Frankfurter Allgemeine Zeitung";
+                    case 11: return "Donaukurier";
+                    case 12: return "Bild";
+                }
+            });
+
+
+        // Prep the tooltip bits, initial display is hidden
+        var tooltip = svg.append("g")
+            .attr("class", "tooltip")
+            .style("display", "none");
+
+        tooltip.append("rect")
+            .attr("width", 32)
+            .attr("height", 20)
+            .attr("fill", "white")
+            .style("opacity", 0.7);
+
+        tooltip.append("text")
+            .attr("x", 15)
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .attr("font-size", "15px")
+            .attr("font-weight", "bold");
+
+    },400)
+
+
+
 </script>
+
 
 <p class = "footer">"There have been numerous criticisms of the hype cycle, prominent among which are that it is not a cycle, <br>that the outcome does not depend on the nature of the technology itself, that it is not scientific in nature, <br>and that it does not reflect changes over time in the speed at which technology develops." <br><a href="https://en.wikipedia.org/wiki/Hype_cycle">Source: Wikipedia</a></p>
 

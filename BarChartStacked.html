@@ -201,7 +201,7 @@
         var data2 = [dict5G,dictIoT,dictDeepLearning, dictAutonomousVehicles, dictBlockchain, dictConnectedHome, dictAugmentedReality,dictVirtualReality];
 
         var dataset = d3.layout.stack()(["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"].map(function(fruit) {
-            console.log(data2)
+
 
             return data2.map(function(d) {
                 for (i = 0; i < 7; i++) {
@@ -229,6 +229,9 @@
         var y = d3.scale.linear()
             .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
             .range([height, 0]);
+
+        console.log("Dataset:")
+        console.log(dataset)
 
         var colors = [
             "#e6194b",
