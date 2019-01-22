@@ -468,6 +468,8 @@
 
 <script>
 
+    var path = "https://sambda.github.io/HypeCycle/JSON/sorted/"
+
     const sample = [
         {
             hypeTerm: '5G',
@@ -724,7 +726,7 @@
     var filenamesVirtualReality = ["VirtualReality", "VirtualReality-", "VirtuelleRealitaet","VR"]
 
     for (w = 0; w < filenames5G.length; w++) {
-        d3.json("./JSON/sorted/5G/" + filenames5G[w] + ".json", function(error, data) {
+        d3.json(path + "5G/" + filenames5G[w] + ".json", function(error, data) {
             //console.log(data); // this is your data
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
@@ -740,7 +742,7 @@
     }
 
     for (w = 0; w < filenamesIoT.length; w++) {
-        d3.json("./JSON/sorted/IoT/" + filenamesIoT[w] + ".json", function(error, data) {
+        d3.json(path + "IoT/" + filenamesIoT[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
@@ -753,7 +755,7 @@
     }
 
     for (w = 0; w < filenamesAugmentedReality.length; w++) {
-        d3.json("./JSON/sorted/AugmentedReality/" + filenamesAugmentedReality[w] + ".json", function(error, data) {
+        d3.json(path + "AugmentedReality/" + filenamesAugmentedReality[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
@@ -766,7 +768,7 @@
     }
 
     for (w = 0; w < filenamesDeepLearning.length; w++) {
-        d3.json("./JSON/sorted/DeepLearning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
+        d3.json(path + "DeepLearning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
                 //console.log(i)
                 var obj = data[i].newsportal;
@@ -780,7 +782,7 @@
     }
 
     for (w = 0; w < filenamesAutonomousVehicles.length; w++) {
-        d3.json("./JSON/sorted/AutonomousVehicles/" + filenamesAutonomousVehicles[w] + ".json", function(error, data) {
+        d3.json(path +"AutonomousVehicles/" + filenamesAutonomousVehicles[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
@@ -793,7 +795,7 @@
     }
 
     for (w = 0; w < filenamesBlockchain.length; w++) {
-        d3.json("./JSON/sorted/Blockchain/" + filenamesBlockchain[w] + ".json", function(error, data) {
+        d3.json(path + "Blockchain/" + filenamesBlockchain[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
@@ -806,7 +808,7 @@
     }
 
     for (w = 0; w < filenamesConnectedHome.length; w++) {
-        d3.json("./JSON/sorted/ConnectedHome/" + filenamesConnectedHome[w] + ".json", function(error, data) {
+        d3.json(path + "ConnectedHome/" + filenamesConnectedHome[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
                 //console.log(i)
                 var obj = data[i].newsportal;
@@ -821,7 +823,7 @@
 
 
     for (w = 0; w < filenamesVirtualReality.length; w++) {
-        d3.json("./JSON/sorted/VirtualReality/" + filenamesVirtualReality[w] + ".json", function(error, data) {
+        d3.json(path + "VirtualReality/" + filenamesVirtualReality[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
                 //console.log(i)
                 var obj = data[i].newsportal;
