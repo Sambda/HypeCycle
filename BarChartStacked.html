@@ -42,9 +42,9 @@
     /* create a complete dict*/
     var dict5G = {hypeterm: "5G"}
     for(z = 0; z < newspapers.length; z++){
-        dict5G[newspapers[z]] = [0,newspapers[z]];
-        var xt = 14 +z
-        dict5G[newspaperNames[xt]] = newspapers[z];
+        dict5G[newspapers[z]] = 0;   // = [0,newspapers[z]];
+        //var xt = 14 +z
+        //dict5G[newspaperNames[xt]] = newspapers[z];
     }
     var dictIoT = {hypeterm: "IoT"}
     for(t = 0; t < newspapers.length; t++){
@@ -77,18 +77,19 @@
     /*different hype term variations*/
     var filenames5G = ["5G-format", "5GTechnologie-format"]
     var filenamesIoT = ["InternetDerDinge", "IoT", "WoT"]
-    var filenamesDeepLearning = ["DeepLearning", "MaschineLearning","NeuronaleNetze","maschinelleslernen","neuralnetworks","ArtificialIntelligence"]
-    var filenamesAutonomousVehicles = ["AutonomousVehicles","Autonomesfahren", "Autonomous-driving","Self-Driving","Self-DrivingCar","driverless-car-in-training"]
+    var filenamesDeepLearning = ["DeepLearning", "NeuronaleNetze","ArtificialIntelligence"]
+    var filenamesAutonomousVehicles = ["AutonomousVehicles","Autonomesfahren", "Autonomous-Driving","Self-Driving","Self-drivingCar","Driverless-car-in-training"]
     var filenamesBlockchain = ["BLOCKCHAIN_JOIN", "BITCOIN_JOIN"]
-    var filenamesConnectedHome = ["SmartHome2", "Connected-Home", "Alexa_JOIN2","Innogy","EHome_JOIN","GoogleHome","AmazonEcho"]
+    var filenamesConnectedHome = ["SmartHome2", "Alexa_JOIN2","EHOME_JOIN","GoogleHome","AmazonEcho"]
     var filenamesAugmentedReality = ["Augmented-Reality", "AR","ErweiterteRealitaet"]
     var filenamesVirtualReality = ["VirtualReality", "Virtual Reality-", "VirtuelleRealität","VR"]
+
     for (w = 0; w < filenames5G.length; w++) {
         d3.json("./JSON/sorted/5G/" + filenames5G[w] + ".json", function(error, data) {
             //console.log(data); // this is your data
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
-                console.log(obj)
+                //console.log(obj)
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
                         dict5G[newspapers[j]] = dict5G[newspapers[j]] + 1;
@@ -101,7 +102,6 @@
     for (w = 0; w < filenamesIoT.length; w++) {
         d3.json("./JSON/sorted/IoT/" + filenamesIoT[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
-
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
@@ -112,9 +112,8 @@
         });
     }
     for (w = 0; w < filenamesAugmentedReality.length; w++) {
-        d3.json("./JSON/sorted/Augmented Reality/" + filenamesAugmentedReality[w] + ".json", function(error, data) {
+        d3.json("./JSON/sorted/AugmentedReality/" + filenamesAugmentedReality[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
-
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
@@ -125,9 +124,9 @@
         });
     }
        for (w = 0; w < filenamesDeepLearning.length; w++) {
-           d3.json("./JSON/sorted/Deep Learning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
+           d3.json("./JSON/sorted/DeepLearning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
                for(var i = 0; i < data.length; i++) {
-                   console.log(i)
+                   //console.log(i)
                    var obj = data[i].newsportal;
                    for(j = 0; j < newspapers.length; j++){
                        if(obj == newspapers[j]){
@@ -139,9 +138,8 @@
        }
 
     for (w = 0; w < filenamesAutonomousVehicles.length; w++) {
-        d3.json("./JSON/sorted/Autonomous Vehicles/" + filenamesAutonomousVehicles[w] + ".json", function(error, data) {
+        d3.json("./JSON/sorted/AutonomousVehicles/" + filenamesAutonomousVehicles[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
-
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
@@ -154,7 +152,6 @@
     for (w = 0; w < filenamesBlockchain.length; w++) {
         d3.json("./JSON/sorted/Blockchain/" + filenamesBlockchain[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
-
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
@@ -166,9 +163,9 @@
     }
 
         for (w = 0; w < filenamesConnectedHome.length; w++) {
-            d3.json("./JSON/sorted/Augmented Reality/" + filenamesConnectedHome[w] + ".json", function(error, data) {
+            d3.json("./JSON/sorted/ConnectedHome/" + filenamesConnectedHome[w] + ".json", function(error, data) {
                 for(var i = 0; i < data.length; i++) {
-                    console.log(i)
+                    //console.log(i)
                     var obj = data[i].newsportal;
                     for(j = 0; j < newspapers.length; j++){
                         if(obj == newspapers[j]){
@@ -181,9 +178,9 @@
 
 
         for (w = 0; w < filenamesVirtualReality.length; w++) {
-            d3.json("./JSON/sorted/Augmented Reality/" + filenamesVirtualReality[w] + ".json", function(error, data) {
+            d3.json("./JSON/sorted/VirtualReality/" + filenamesVirtualReality[w] + ".json", function(error, data) {
                 for(var i = 0; i < data.length; i++) {
-                    console.log(i)
+                    //console.log(i)
                     var obj = data[i].newsportal;
                     for(j = 0; j < newspapers.length; j++){
                         if(obj == newspapers[j]){
@@ -195,8 +192,8 @@
         }
 
     setTimeout(function afterTwoSeconds() {
-        console.log(dict5G);
-        console.log(dictIoT);
+        //console.log(dict5G);
+        //console.log(dictIoT);
         var data2 = [dict5G,dictIoT,dictAugmentedReality,dictBlockchain,dictAutonomousVehicles,dictDeepLearning,dictVirtualReality,dictConnectedHome];
 
         var dataset = d3.layout.stack()(["Bild", "Donaukurier" , "Frankfurter Allgemeine Zeitung" , "Focus" , "Guardian" , "New York Times" , "Russia Today" , "Spiegel Online" ,"Stern" ,"Sueddeutsche Zeitung" , "Die Tageszeitung" , "Welt" , "Zeit"].map(function(fruit) {
@@ -230,19 +227,19 @@
             .range([height, 0]);
 
         var colors = [
-            "#A6050E",
-            "#1CA9E9",
-            "#000",
-            "#D20918",
-            "#082A61",
-            "#c4c4c4",
-            "#78BB2F",
-            "#97040C",
-            "#C90813",
-            "#169990",
-            "#DF0B25",
-            "#EF8834",
-            "#000"];
+            "#e6194b",
+            "#f58231",
+            "#ffe119",
+            "#bfef45",
+            "#3cb44b",
+            "#42d4f4",
+            "#4363d8",
+            "#911eb4",
+            "#f032e6",
+            "#000075",
+            "#a9a9a9",
+            "#000000",
+            "#800000"];
 
         var layers = d3.layout.stack()(
             dataset.map(function (count) {
@@ -366,7 +363,7 @@
             .attr("font-size", "15px")
             .attr("font-weight", "bold");
 
-    },300)
+    },100)
 
 
 </script>
