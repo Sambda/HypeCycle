@@ -18,6 +18,7 @@
         });
     </script>
 
+
 </head>
 
 <body>
@@ -31,6 +32,7 @@
 <div class="HypeCycleContainer" > </div>
 <h2>Bar Chart with a Visualisation of the newsportals per Buzzword</h2>
 <div class="BarChartContainer" > </div>
+
 <script>
 
 
@@ -448,6 +450,9 @@
 
 </script>
 
+<button type="button" onclick="changeChart()">Show Newspapers</button>
+
+
 <script>
     // https://insights.stackoverflow.com/survey/2018/#technology-most-loved-dreaded-and-wanted-languages
     const sample = [
@@ -614,8 +619,20 @@
         .attr('x', width / 2 + margin)
         .attr('y', 40)
         .attr('text-anchor', 'middle')
+
+
+    // Function is called when button is clicked
+    var changeChart = function(){
+        console.log("button clicked!");
+        barGroups
+            .style("fill", "blue")
+    }
+
 </script>
 
+<script>
+
+</script>
 
 <p class = "footer">"There have been numerous criticisms of the hype cycle, prominent among which are that it is not a cycle, <br>that the outcome does not depend on the nature of the technology itself, that it is not scientific in nature, <br>and that it does not reflect changes over time in the speed at which technology develops." <br><a href="https://en.wikipedia.org/wiki/Hype_cycle">Source: Wikipedia</a></p>
 
