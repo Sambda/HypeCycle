@@ -23,9 +23,13 @@
 <body>
 <h1>Summer of Buzzwords</h1>
 <h2>The Gartner Hype Cycle 2017</h2>
+
 <div class="topnav">
     <a onclick="openNav()"><i style="color:white; font-size: x-large" aria-hidden="true"></i>&nbsp;</a>
 </div>
+<div class="HypeCycleContainer" > </div>
+<h2>Bar Chart with a Visualisation of the newsportals per Buzzword</h2>
+<div class="BarChartContainer" > </div>
 <script>
 
 
@@ -58,7 +62,7 @@
         [210 * scaling, 50 * scaling, "Deep Learning"],
     ];
     var pathData = lineGenerator(linePoints);
-    var svgCycle = d3.select("body")
+    var svgCycle = d3.select(".HypeCycleContainer")
         .append("svg")
         .attr("width", w)
         .attr("height", h);
@@ -489,10 +493,11 @@
     ];
 
 
-    const svg2 = d3.select("body")
+    const svg2 = d3.select(".BarChartContainer")
         .append("svg")
         .attr("width", w)
         .attr("height", h);
+    console.log(svg2);
     const margin = 80;
     const width = 1500 -   margin;
     const height = 850 -   margin;
@@ -609,13 +614,10 @@
         .attr('y', 40)
         .attr('text-anchor', 'middle')
 </script>
-<div class="HypeCycleContainer" > </div>
-<h2>Bar Chart with a Visualisation of the newsportals per Buzzword</h2>
-<div class="BarChartContainer" > </div>
+
+
 <p class = "footer">"There have been numerous criticisms of the hype cycle, prominent among which are that it is not a cycle, <br>that the outcome does not depend on the nature of the technology itself, that it is not scientific in nature, <br>and that it does not reflect changes over time in the speed at which technology develops." <br><a href="https://en.wikipedia.org/wiki/Hype_cycle">Source: Wikipedia</a></p>
 
-<!-- <h2>Bar chart example</h2> -->
-<div class="BarChart"></div>
 
 
 
