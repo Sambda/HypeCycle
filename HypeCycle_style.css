@@ -12,6 +12,8 @@ h1 {
 h2 {
     color: #999;
     font-size: 20px;
+    margin-bottom: -30px;
+    margin-top: 40px;
 }
 
 .StackedBarChartContainer{
@@ -61,6 +63,14 @@ button{
     text-align: left;
     padding: 14px 16px;
     text-decoration: none;
+}
+
+.topnav2 {
+    overflow: hidden;
+    background-color: #989898;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.06);
+    -webkit-text-decorations-in-effect: blink;
 }
 
 
@@ -243,3 +253,7 @@ text.source {
     font-size: 10px;
 }
 
+.HypeCycleContainer{
+    box-shadow: 0px 0px 40px -5px rgba(0,0,0,0.3);
+    padding-top: 10px;
+}
