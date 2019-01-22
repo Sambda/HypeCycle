@@ -82,7 +82,7 @@
     var filenamesBlockchain = ["BLOCKCHAIN_JOIN", "BITCOIN_JOIN"]
     var filenamesConnectedHome = ["SmartHome2", "Alexa_JOIN2","EHOME_JOIN","GoogleHome","AmazonEcho"]
     var filenamesAugmentedReality = ["Augmented-Reality", "AR","ErweiterteRealitaet"]
-    var filenamesVirtualReality = ["VirtualReality", "VirtualReality-", "VirtuelleRealitaet","VR", "VirtualReality-2"]
+    var filenamesVirtualReality = ["VirtualReality", "VirtualReality-", "VirtuelleRealitaet","VR"]
 
     for (w = 0; w < filenames5G.length; w++) {
         d3.json("./JSON/sorted/5G/" + filenames5G[w] + ".json", function(error, data) {
@@ -99,6 +99,7 @@
             }
         });
     }
+
     for (w = 0; w < filenamesIoT.length; w++) {
         d3.json("./JSON/sorted/IoT/" + filenamesIoT[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
@@ -111,6 +112,7 @@
             }
         });
     }
+
     for (w = 0; w < filenamesAugmentedReality.length; w++) {
         d3.json("./JSON/sorted/AugmentedReality/" + filenamesAugmentedReality[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
@@ -123,19 +125,20 @@
             }
         });
     }
-       for (w = 0; w < filenamesDeepLearning.length; w++) {
-           d3.json("./JSON/sorted/DeepLearning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
-               for(var i = 0; i < data.length; i++) {
-                   //console.log(i)
-                   var obj = data[i].newsportal;
-                   for(j = 0; j < newspapers.length; j++){
-                       if(obj == newspapers[j]){
-                           dictDeepLearning[newspapers[j]] = dictDeepLearning[newspapers[j]] + 1;
-                       }
-                   }
-               }
-           });
-       }
+
+    for (w = 0; w < filenamesDeepLearning.length; w++) {
+        d3.json("./JSON/sorted/DeepLearning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                //console.log(i)
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictDeepLearning[newspapers[j]] = dictDeepLearning[newspapers[j]] + 1;
+                    }
+                }
+            }
+        });
+    }
 
     for (w = 0; w < filenamesAutonomousVehicles.length; w++) {
         d3.json("./JSON/sorted/AutonomousVehicles/" + filenamesAutonomousVehicles[w] + ".json", function(error, data) {
@@ -149,6 +152,7 @@
             }
         });
     }
+
     for (w = 0; w < filenamesBlockchain.length; w++) {
         d3.json("./JSON/sorted/Blockchain/" + filenamesBlockchain[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
@@ -162,19 +166,19 @@
         });
     }
 
-        for (w = 0; w < filenamesConnectedHome.length; w++) {
-            d3.json("./JSON/sorted/ConnectedHome/" + filenamesConnectedHome[w] + ".json", function(error, data) {
-                for(var i = 0; i < data.length; i++) {
-                    //console.log(i)
-                    var obj = data[i].newsportal;
-                    for(j = 0; j < newspapers.length; j++){
-                        if(obj == newspapers[j]){
-                            dictConnectedHome[newspapers[j]] = dictConnectedHome[newspapers[j]] + 1;
-                        }
+    for (w = 0; w < filenamesConnectedHome.length; w++) {
+        d3.json("./JSON/sorted/ConnectedHome/" + filenamesConnectedHome[w] + ".json", function(error, data) {
+            for(var i = 0; i < data.length; i++) {
+                //console.log(i)
+                var obj = data[i].newsportal;
+                for(j = 0; j < newspapers.length; j++){
+                    if(obj == newspapers[j]){
+                        dictConnectedHome[newspapers[j]] = dictConnectedHome[newspapers[j]] + 1;
                     }
                 }
-            });
-        }
+            }
+        });
+    }
 
 
         for (w = 0; w < filenamesVirtualReality.length; w++) {
@@ -317,9 +321,6 @@
             .attr("width", 18)
             .attr("height", 18)
             .style("fill", function(d, i) {return colors.slice().reverse()[i];});
-        console.log(colors.slice().reverse()[1])
-        console.log(colors.slice().reverse()[2])
-        console.log(colors.slice().reverse()[3])
 
         legend.append("text")
             .attr("x", width + 5)
