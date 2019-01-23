@@ -486,24 +486,6 @@
 </script>
 
 
-
-<script>
-
-    /*
-     let promise = window.fetch("https://sambda.github.io/HypeCycle/test.json")
-        .then(response => {
-          console.log("response:", response);
-          return response.json();
-        })
-        .then(data => {
-          console.log("JSON:", data);
-        //  document.getElementById('content').innerHTML = data.key;
-        });
-      console.log("promise:", promise);	*/
-
-
-</script>
-
 <!–– Button to switch between the bar charts ––>
 <button class =".ButtonBarChart" type="button" onclick="changeChart()">Show Newspapers</button>
 
@@ -782,10 +764,8 @@
 
     for (w = 0; w < filenames5G.length; w++) {
         d3.json(path + "5G/" + filenames5G[w] + ".json", function(error, data) {
-            //console.log(data); // this is your data
             for(var i = 0; i < data.length; i++) {
                 var obj = data[i].newsportal;
-                //console.log(obj)
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
                         dict5G[newspapers[j]] = dict5G[newspapers[j]] + 1;
@@ -825,7 +805,6 @@
     for (w = 0; w < filenamesDeepLearning.length; w++) {
         d3.json(path + "DeepLearning/" + filenamesDeepLearning[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
-                //console.log(i)
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
@@ -865,7 +844,6 @@
     for (w = 0; w < filenamesConnectedHome.length; w++) {
         d3.json(path + "ConnectedHome/" + filenamesConnectedHome[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
-                //console.log(i)
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
@@ -880,7 +858,6 @@
     for (w = 0; w < filenamesVirtualReality.length; w++) {
         d3.json(path + "VirtualReality/" + filenamesVirtualReality[w] + ".json", function(error, data) {
             for(var i = 0; i < data.length; i++) {
-                //console.log(i)
                 var obj = data[i].newsportal;
                 for(j = 0; j < newspapers.length; j++){
                     if(obj == newspapers[j]){
@@ -893,8 +870,6 @@
 
     //timeout function to avoid that graph is created before the dictionnaries are completed
     setTimeout(function afterTwoSeconds() {
-        //console.log(dict5G);
-        //console.log(dictIoT);
         var data_stacked = [dict5G,dictIoT,dictDeepLearning, dictAutonomousVehicles, dictBlockchain, dictConnectedHome, dictAugmentedReality,dictVirtualReality];
 
 
@@ -997,11 +972,9 @@
             .on("mousemove", function(d) {
                 var xPosition = d3.mouse(this)[0] - 15;
                 var yPosition = d3.mouse(this)[1] - 25;
-                console.log("d:")
-                console.log(d)
-                console.log(d3.mouse(this))
+
                 tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-                tooltip.select("text").text(d.y) ;
+                tooltip.select("text").text("Count: " + d.y) ;
                 console.log(d3.mouse(this)[1])
             });
 
@@ -1049,15 +1022,15 @@
             .style("display", "none");
 
         tooltip.append("rect")
-            .attr("width", 32)
-            .attr("height", 20)
+            .attr("width", 95)
+            .attr("height", 25)
             .attr("fill", "white")
             .style("opacity", 0.7);
 
         tooltip.append("text")
             .attr("x", 15)
             .attr("dy", "1.2em")
-            .style("text-anchor", "middle")
+            .style("text-anchor", "center")
             .attr("font-size", "15px")
             .attr("font-weight", "bold");
 
