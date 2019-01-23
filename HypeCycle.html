@@ -33,10 +33,13 @@
 <body>
 <h1>Summer of Buzzwords</h1>
 
-
+<!–– Navigation ––>
 <div class="topnav">
     <a onclick="openNav()"><i style="color:white; font-size: x-large" aria-hidden="true"></i>&nbsp;</a>
 </div>
+
+
+<!–– The Hype Cycle visualisation ––>
 <h2>The Gartner Hype Cycle 2017</h2>
 <div class="HypeCycleContainer" > </div>
 
@@ -45,11 +48,17 @@
 </div>
 
 <h2  style="padding-bottom: 10px; margin-top: 15px">Bar Chart with a Visualisation of the newsportals per Buzzword</h2>
+
+<!–– The Bar Chart visualisation of the hype terms ––>
+
 <div class="BarChartContainer" > </div>
+
+
+<!–– The Bar Chart visualisation of the hype terms by newspapers––>
 
 <div class="StackedBarChartContainer"></div>
 <script>
-
+    //script to create the hype cycle visualization
     var scaling = 1.15,
         w = 700 * scaling,
         h = 400 * scaling,
@@ -57,6 +66,8 @@
         padding = 30 * scaling;
     var lineGenerator = d3.line()
         .curve(d3.curveCardinal.tension(-0.5));
+
+    //points with which the line / cardinal curve is created
     var linePoints = [
         [100 * scaling, 350 * scaling],
         [200 * scaling, 50 * scaling],
@@ -64,6 +75,8 @@
         [500 * scaling, 250 * scaling],
         [650 * scaling, 240 * scaling]
     ];
+
+    //data for the points with text right of the curve
     var hypePointsRight = [
         [220 * scaling, 65 * scaling, "Autonomous Vehicles"],
         [240 * scaling, 140 * scaling, "Blockchain"],
@@ -71,12 +84,18 @@
         [300 * scaling, 300 * scaling, "Augmented Reality"],
         [500 * scaling, 250 * scaling, "Virtual Reality"]
     ];
+
+    //data for the points with text left of the curve
     var hypePointsLeft = [
         [132 * scaling, 200 * scaling, "5G"],
         [185 * scaling, 65 * scaling, "IoT Platform"],
         [210 * scaling, 50 * scaling, "Deep Learning"],
     ];
+
+    //create line
     var pathData = lineGenerator(linePoints);
+
+    //add/append svg and d3 elements to the container
     var svgCycle = d3.select(".HypeCycleContainer")
         .append("svg")
         .attr("width", w)
@@ -84,16 +103,16 @@
     var lineGraph3 = svgCycle
         .append("path")
         .attr("d", pathData);
-    //Create adaptable scales
+
+    //Create scales
     var xScale = d3.scaleLinear()
-    //.domain([0, 600])
         .range([padding, w - padding]);
     var yScale = d3.scaleLinear()
-    //.domain([0, 400])
         .range([h - padding, padding]);
+
     //Set up the axes
     var xAxis = d3.axisBottom(xScale)
-        .tickValues([]);
+        .tickValues([])
     var yAxis = d3.axisLeft(yScale)
         .tickValues([]);
     svgCycle.append("g")
@@ -104,6 +123,8 @@
         .attr("class", "axis")
         .attr("transform", "translate(" + padding + ",0)")
         .call(yAxis);
+
+    //remove domains
     function customXAxis(g) {
         g.call(xAxis);
         g.select(".domain").remove();
@@ -114,18 +135,20 @@
         g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
         g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
     }
+
     // text label for the x axis
     svgCycle.append("text")
         .attr("transform", "translate(" + ((w-padding)/2) + " ," + ((h - 10 * scaling)) + ")")
         .style("text-anchor", "middle")
         .style("fill", "#999")
         .text("Time");
-    // text label for the x axis
+    // text label for the y axis
     svgCycle.append("text")
         .attr("transform", "translate(" + (15*scaling) + " ," + ((h-padding)/2) + ")rotate(-90)")
         .style("text-anchor", "middle")
         .style("fill", "#999")
         .text("Expectations");
+
     //text for the phases
     var phase1 = svgCycle.append("text")
         .attr("transform", "translate(" + (160*scaling) + " ," + (350*scaling) + ")")
@@ -166,12 +189,14 @@
         .style("font-size", "18px")
         .style("opacity","0")
         .text("Plateau of Productivity");
+
     var phases = svgCycle.append("text")
         .attr("transform", "translate(" + (450*scaling) + " ," + (100*scaling) + ")")
         .style("text-anchor", "middle")
         .style("fill", "orange")
         .style("font-size", "18px")
         .text("Show Key Phases")
+        //make phases appear on mouseover
         .on("mouseover", function(){
             d3.select(this)
             phase1.style("opacity", 1.0)
@@ -191,7 +216,8 @@
         .on("click",function() {
             d3.select(this)
         });
-    //Phase regions
+
+    //append phase regions and make appear and disappear on mouseover
     var region1 = svgCycle.append("rect")
         .attr("x", padding +10*scaling)
         .attr("y", padding)
@@ -275,13 +301,16 @@
             phase5.style("opacity","0");
         });
 
-
+    //add circles on the positions of the points along which the data is created
+    //for creational purposes only. set opacity to 0 when presenting
     svgCycle.selectAll(".point")
         .data(linePoints)
         .enter().append("circle")
         .attr("r", 4 * scaling)
         .attr("transform", function(d) { return "translate(" + d + ")"; })
         .style("opacity", 0);
+
+    //append text to all points with text on the right
     var textsRight = svgCycle.append("g")
         .selectAll("text")
         .data(hypePointsRight)
@@ -298,6 +327,8 @@
         })
         .attr("font-size", "15px")
         .attr("fill", "steelblue");
+
+    //append actual circles on the positions of the points
     var buzzwordsRight = svgCycle.selectAll(".point")
         .data(hypePointsRight)
         .enter().append("circle")
@@ -306,6 +337,8 @@
         .attr("stroke-width", 2 * scaling)
         .style("stroke", "steelblue")
         .style("fill", "none");
+
+    //append text to all points with text on the left
     var textsLeft = svgCycle.append("g")
         .selectAll("text")
         .data(hypePointsLeft)
@@ -323,6 +356,8 @@
         .attr("font-size", "15px")
         .attr("fill", "steelblue")
         .attr("text-anchor", "end");
+
+    //append actual circles on the positions of the points
     var buzzwordsLeft = svgCycle.selectAll(".point")
         .data(hypePointsLeft)
         .enter().append("circle")
@@ -332,6 +367,7 @@
         .style("stroke", "steelblue")
         .style("fill", "none");
 
+    //make transition to the circles, so the user can see when she hovers over them
     buzzwordsLeft
         .on("mouseover", function(){
             d3.select(this)
@@ -352,6 +388,7 @@
                 .style("fill","none");
         })
 
+        //get information which hype term is clicked on
         .on("click",function(){
             d3.select(this)
                 .transition()
@@ -359,16 +396,16 @@
                 .style("r", 10 * scaling);
 
             // Get current event info
-          //  console.log(d3.event);
+            //  console.log(d3.event);
             // Get x & y co-ordinates
             //console.log(d3.mouse(svg.node));
-            console.log("Hhu:")
+            console.log("Values:")
             console.log(d3.select(this)[0])
             /* Get the right name of the selected Point and open BubbleChart HTML with the right Data */
           //  selectedValue = d3.select(this)._groups[0][0].__data__[2];
             selectedValue = d3.select(this)[0][0].__data__[2];
 
-
+            //open bubblechart.html with the correct corresponding term
             if(selectedValue == "IoT Platform"){
                 var valueBubble="IoT";
                 var queryString = "?para1=" + valueBubble;
@@ -386,6 +423,7 @@
             }
         });
 
+    //make transition to the circles, so the user can see when she hovers over them
     buzzwordsRight
         .on("mouseover", function(){
             d3.select(this)
@@ -405,6 +443,7 @@
                 .style("r", 6 * scaling)
                 .style("fill","none");
         })
+        //extract information on which hypeterm is being clicked on
         .on("click",function(){
             d3.select(this)
                 .transition()
@@ -466,6 +505,7 @@
 
 </script>
 
+<!–– Button to switch between the bar charts ––>
 <button class =".ButtonBarChart" type="button" onclick="changeChart()">Show Newspapers</button>
 
 
@@ -476,42 +516,42 @@
     const sample = [
         {
             hypeTerm: '5G',
-            value: 64+4,
+            value: 64+4, //5g + 5g technologie
             color: '#000000'
         },
         {
             hypeTerm: 'IoT Platform',
-            value: 3+2+32+2,
+            value: 2+3+2, //Internet der Dinge + IoT + WoT
             color: '#00a2ee'
         },
         {
             hypeTerm: 'Deep Learning',
-            value: 1+1+10,
+            value: 10 + 1 + 1, //artificial intelligence + deep learning + NN
             color: '#fbcb39'
         },
         {
             hypeTerm: 'Autonomous \n Vehicles',
-            value: 2+14+1+16+5+1,
+            value: 14+1+2+1+16+5, //autonomes fahren + aut.-driving + aut. vehicles + self-driving + self-d.-car
             color: '#007bc8'
         },
         {
             hypeTerm: 'Blockchain',
-            value: 30+66,
+            value: 30+66, //bitcoin + blockchain
             color: '#65cedb'
         },
         {
             hypeTerm: 'Connected Home',
-            value: 97+3+189+27+1+1,
+            value: 189+8+1+7+35, //Alexa + echo + ehome + googlehome + smarthome
             color: '#ff6e52'
         },
         {
             hypeTerm: 'Augmented Reality',
-            value: 2+27+3,
+            value: 27+2+3, //AR + augm. real. + erweiterte realität
             color: '#f9de3f'
         },
         {
             hypeTerm: 'Virtual Reality',
-            value: 13+58+4+26,
+            value: 13+38+4+26, //virtual reality + virtual-reality-* + virtuelle realität + VR
             color: '#5d2f8e'
         }
     ];
@@ -639,6 +679,7 @@
         .attr('text-anchor', 'middle')
 
     var index = 0
+
     // Function is called when button is clicked
     var changeChart = function(){
         console.log("button clicked!");
@@ -670,7 +711,7 @@
 
 <script>
 
-    // Setup svg using Bostock's margin convention
+    // Setup svg
     var margin2 = {top: 20, right: 160, bottom: 35, left: 30};
     var width2 = 960 - margin2.left - margin2.right,
         height2 = 480 - margin2.top - margin2.bottom;
